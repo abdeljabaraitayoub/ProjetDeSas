@@ -364,7 +364,9 @@ void Statistiques()
     switch(TypeStat)
     {
     case 1 :
-        printf("le nombre total des taches est : %d",numTache);
+        printf("le nombre total des taches est : %d\n",numTache);
+         printf("\tAppuyez n'importe quelle touche pour revenir au menu : ");
+        scanf("%s",&back);
         break;
 
 
