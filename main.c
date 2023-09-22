@@ -3,8 +3,15 @@
 #include<math.h>
 #include<time.h>
 #include<string.h>
-//#include"menu.h"
-//#include"head.h"
+//--------------------------------------------------------------------------------------------declaration de functions------------------------------------------------------------------------------------------------
+void afficherMenu();
+void AfficherLesTaches();
+void ajouterTache();
+void ModifierUneTache();
+void SupprimerUneTache();
+void RechercherUneTache();
+void Statistiques();
+//--------------------------------------------------------------------------------------------declaration de structure-------------------------------------------------------------------------------------------------
 typedef struct
 {
     int identifiant;
@@ -13,9 +20,8 @@ typedef struct
     char statut[40];
     char description[50];
 } Tache;
-//array
 Tache taches[100];
-// global variables :
+//--------------------------------------------------------------------------------------------------global variables---------------------------------------------------------------------------------------------------
 int numTache=0;
 char back;
 int mod=0;
@@ -23,7 +29,7 @@ int mod=0;
 
 int main()
 {
-    // declaration des variable.
+    // declaration des locals variables.
     int choix;
 
     do
@@ -49,10 +55,10 @@ int main()
 
             break;
         case 5:
-            // SupprimerUneTache();
+            SupprimerUneTache();
             break;
         case 6:
-            // Statistiques();
+            Statistiques();
             break;
         case 0:
             printf("\t\t Au revoir ;)\n");
@@ -70,15 +76,15 @@ int main()
 void afficherMenu()
 {
     printf("                 *************************************************************************************\n");
-    printf("                 *                                     ToDo list                                     *\n");
+    printf("                 ************************************* ToDo list *************************************\n");
     printf("                 *************************************************************************************\n");
-    printf("                 *                              [1] L'ajout d'une tache.                             *\n");
+    printf("                 *                                [1] L'ajout des taches.                            *\n");
     printf("                 *                                   [2] Afficher.                                   *\n");
     printf("                 *                            [3] Modification d'une tache.                          *\n");
-    printf("                 *                            [4] le recherche d'une tache.                          *\n");
-    printf("                 *                           [5] l'ajout d'une tache.                                *\n");
-    printf("                 *                           [6] l'ajout d'une tache.                                *\n");
-    printf("                 ************************************[0] Exit.****************************************\n");
+    printf("                 *                              [4] Recherche d'une tache.                           *\n");
+    printf("                 *                             [5] supression d'une tache.                           *\n");
+    printf("                 *                                 [6] Statistiques                                  *\n");
+    printf("                 **************************************[0] Exit.**************************************\n");
 }
 
 void ajouterTache()
@@ -190,7 +196,7 @@ void AfficherLesTaches()
         while(TypeAffichage<0&&TypeAffichage>3);
     }
 }
-ModifierUneTache()
+void ModifierUneTache()
 {
     if (numTache<=0)
     {
@@ -235,7 +241,7 @@ ModifierUneTache()
         printf("\n");
     }
 }
-RechercherUneTache()
+void RechercherUneTache()
 {
     int recherche=0;
     int Typerecherche=1;
@@ -317,5 +323,53 @@ RechercherUneTache()
             break;
         }
     }
+
+}
+void SupprimerUneTache()
+{
+    int sup;
+    int i,j;
+    printf("veuiller emtrer l'identicateur de la tache qui vous voullez supprimer : ");
+    scanf("%d",&sup);
+    for (i=0; i<numTache; i++)
+    {
+        if(sup==taches[i].identifiant)
+        {
+            for(j=i+1; j<numTache; j++)
+            {
+                taches[i]=taches[j];
+            }
+            numTache--;
+        }
+    }
+}
+void Statistiques()
+{
+    int TypeStat;
+    if (numTache<=0)
+    {
+        printf("\n\t\tajouter une tache avant de voir les statistiques :'(\n");
+        printf("\n");
+        printf("\tAppuyez n'importe quelle touche pour revenir au menu : ");
+        scanf("%s",&back);
+    }
+    else
+    {
+        printf("\t[1] afficher le nombre total des taches .\n");
+        printf("\t[2] afficher le nombre de taches complete et incomplete .\n");
+        printf("\t[3] afficher le nombre de jours restants jusqu'au delai de chaque tache .\n");
+        printf("\t\t le choix : ");
+        scanf("%d",&TypeStat);
+    }
+    switch(TypeStat)
+    {
+    case 1 :
+        printf("le nombre total des taches est : %d",numTache);
+        break;
+
+
+
+    }
+
 
 }
