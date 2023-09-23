@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<time.h>
-#include <windows.h>
+//#include <windows.h>
 #include<string.h>
 
 //--------------------------------------------------------------------------------------------declaration de functions------------------------------------------------------------------------------------------------
@@ -40,17 +40,9 @@ int restejour,resteannes,restemois;
 int realiser,finalisee;
 int totalDays;
 int counteurdays;
+
 //----------------------------------------------------------------------------------------------------current time--------------------------------------------------------------------------------------------------------
-int currenTime()
-{
-    SYSTEMTIME t;
-    GetLocalTime(&t);
-    currentjour=t.wDay;
-    currentmois=t.wMonth;
-    currentannes=t.wYear;
-    totalDays=currentjour+currentmois*30+t.wYear*365;
-    return totalDays;
-}
+
 
 
 int main()
@@ -186,6 +178,13 @@ void ajouterTache()
 }
 void AfficherLesTaches()
 {
+    //----------------
+    time_t date=time(NULL);
+
+
+    struct tm tm=*localtime(&date);
+
+    //------------
     int i,j;
     int TypeAffichage;
     if (numTache<=0)
@@ -279,7 +278,7 @@ void AfficherLesTaches()
             case 4 :
                 for (int i=0; i<numTache; i++)
                 {
-                    if (taches[i].deadline.mois*30+taches[i].deadline.jour+taches[i].deadline.annes*365-totalDays<=3)
+                    if ((taches[i].deadline.mois-tm.tm_mon+1+taches[i].deadline.jour-tm.tm_mday+taches[i].deadline.annes-1970-tm.tm_year)<=3)
                     {
                         printf("=================================== Tache numero %d =====================================\n",i+1);
                         printf("L'identifiant est : %d\n", taches[i].identifiant);
@@ -515,7 +514,12 @@ void Statistiques()
         printf("\tAppuyez n'importe quelle touche pour revenir au menu : ");
         scanf("%s",&back);
         break;
-
+    case 3 :
+        printf("\t---->le nombre total des taches realiser est : %d\n\n",realiser);
+        printf("\t---->le nombre total des taches finalisee est : %d\n\n",finalisee);
+        printf("\tAppuyez n'importe quelle touche pour revenir au menu : ");
+        scanf("%s",&back);
+        break;
 
 
 
