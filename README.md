@@ -1,90 +1,67 @@
-# To-Do List Manager
+```markdown
+# Application de Liste de Tâches en C 📋
 
-## Overview
+Cette application en C vous permet de gérer une liste de tâches. Vous pouvez ajouter, afficher, modifier, rechercher et supprimer des tâches de manière efficace.
 
-The To-Do List Manager is a simple C program designed to help users organize and manage their tasks. This console-based application allows users to add, view, and modify tasks in their to-do list.
+## Fonctionnalités principales 🚀
 
-## Table of Contents
+- **Ajout de Tâches** : Vous pouvez ajouter de nouvelles tâches à votre liste avec des détails tels que le titre, la description, la date limite et le statut.
+- **Affichage des Tâches** : Affichez votre liste de tâches, triées par ordre d'ajout, par ordre alphabétique ou par date limite.
+- **Modification de Tâches** : Vous pouvez modifier la description, le statut ou la date limite de n'importe quelle tâche existante.
+- **Recherche de Tâches** : Recherchez des tâches par identifiant ou par titre.
+- **Suppression de Tâches** : Supprimez les tâches que vous avez terminées ou que vous ne souhaitez plus gérer.
+- **Statistiques** : Consultez des statistiques telles que le nombre total de tâches, le nombre de tâches réalisées et le nombre de jours restants pour chaque tâche.
 
-- [Features](#features)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-- [Usage](#usage)
-- [Documentation](#documentation)
-- [Future Enhancements](#future-enhancements)
-- [Contributing](#contributing)
-- [License](#license)
+## Comment utiliser l'application 📝
 
-## Features
+1. Exécutez l'application en C.
+2. Choisissez parmi les options du menu principal en entrant le numéro correspondant :
+   - [1] Pour ajouter une nouvelle tâche.
+   - [2] Pour afficher la liste des tâches.
+   - [3] Pour modifier une tâche existante.
+   - [4] Pour rechercher une tâche.
+   - [5] Pour supprimer une tâche.
+   - [6] Pour afficher les statistiques.
+   - [0] Pour quitter l'application.
+   
+3. Suivez les instructions à l'écran pour effectuer l'action souhaitée.
 
-- **Add Tasks**: Easily add new tasks to your to-do list, including a title, status, deadline, and description.
+## Exemple d'Affichage des Tâches ⭐
 
-- **View Tasks**: Display your tasks in various ways, including normal, alphabetical, or by deadline.
+Voici un exemple d'affichage de tâches triées par date limite :
 
-- **Modify Tasks**: Update existing tasks with new information, such as changing the title, status, deadline, or description.
+```
+=================================== Tache numero 1 =====================================
+L'ID est : 1
+Le titre est : Faire les courses
+Le statut est : En cours de réalisation
+La description est : Acheter des légumes et du lait.
+La date limite est : 2023/10/10
+-----------------------------------------------------------------------------------------
+=================================== Tache numero 2 =====================================
+L'ID est : 2
+Le titre est : Préparer la présentation
+Le statut est : Réalisée
+La description est : Finaliser les diapositives.
+La date limite est : 2023/09/25
+-----------------------------------------------------------------------------------------
+```
 
-- **User-Friendly Interface**: The program provides a straightforward console-based menu system for easy navigation.
+## Prérequis 🛠️
 
-## Getting Started
+- Un compilateur C compatible, tel que GCC, pour compiler et exécuter le code.
+- Un environnement compatible avec la saisie depuis la console.
 
-### Prerequisites
+## Auteur 📝
 
-Before you can run the To-Do List Manager, ensure that you have the following prerequisites installed:
+Ce code a été écrit par Abdeljabar AITYOUB et est mis à disposition sous la licence MIT.
 
-- C compiler (e.g., GCC)
+## Améliorations Futures ✨
 
-### Installation
+Voici quelques idées pour les améliorations futures de cette application :
+- Possibilité d'ajouter des rappels pour les tâches.
+- Interface graphique pour une meilleure expérience utilisateur.
+- Prise en charge de plusieurs utilisateurs avec des listes de tâches distinctes.
 
-1. Clone the repository to your local machine:
-
-   ```bash
-   git clone https://github.com/abdeljabaraitayoub/ProjetDeSas
-   ```
-
-2. Compile the program using your C compiler:
-
-   ```bash
-   gcc -o to-do-list-manager main.c
-   ```
-
-## Usage
-
-1. Run the compiled program:
-
-   ```bash
-   ./to-do-list-manager
-   ```
-
-2. Follow the on-screen menu to perform actions such as adding tasks, viewing tasks, and modifying tasks.
-
-3. To exit the program, select the "Exit" option from the menu.
-
-## Documentation
-
-For detailed information about how the program works and its structure, refer to the [Documentation](Documentation.md) file.
-
-## Future Enhancements
-
-- Save tasks to a file for persistence between program runs.
-- Implement task search and deletion functionality.
-- Add sorting options for tasks based on different criteria.
-- Improve input validation and error handling.
-
-## Contributing
-
-Contributions to this project are welcome. If you'd like to contribute, please follow these steps:
-
-1. Fork the repository.
-2. Create a new branch for your feature or bug fix: `git checkout -b feature-name`.
-3. Make your changes and commit them: `git commit -m 'Add new feature'`.
-4. Push to the branch: `git push origin feature-name`.
-5. Create a pull request from your branch to the main repository.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-Feel free to customize this README template to provide more specific information about your project, including additional sections or details about how to use the program effectively.
+N'hésitez pas à contribuer ou à signaler des problèmes. Bonne gestion de vos tâches ! 👏
+```
