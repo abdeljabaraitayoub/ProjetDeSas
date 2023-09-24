@@ -36,6 +36,7 @@ int numTache=0;
 char reutour;
 int lesModifs=0;
 int realiser,finalisee;
+int id=0;
 
 //--------------------------------------------------------------------------------------------------main functions---------------------------------------------------------------------------------------------------
 int main()
@@ -115,7 +116,8 @@ void ajoutDeslesTaches()
         printf("                 *****************************l'ajout de tache numero %d*******************************\n",i+1);
         //printf("\tEntrer l'ID de la tache : ");
         // scanf("%d",&lesTaches[i].ID);
-        lesTaches[i].ID=i+1;
+        lesTaches[i].ID=id+1;
+        id++;
 
         printf("----> Entrer le titre de la tache %d : ",i+1);
         getchar();
@@ -158,23 +160,27 @@ void ajoutDeslesTaches()
             printf("--------->entrer le jour : ");
             scanf("%d",&lesTaches[i].deadLine.jour);
         }
-        while(lesTaches[i].deadLine.jour<=0 || lesTaches[i].deadLine.jour>31);
+        while(lesTaches[i].deadLine.jour<0 || lesTaches[i].deadLine.jour>31);
         do
         {
             printf("--------->entrer le mois : ");
             scanf("%d",&lesTaches[i].deadLine.mois);
         }
-        while(lesTaches[i].deadLine.mois<=0 || lesTaches[i].deadLine.mois>12);
+        while(lesTaches[i].deadLine.mois<0 || lesTaches[i].deadLine.mois>12);
 
-        printf("--------->entrer l'annes : ");
-        scanf("%d",&lesTaches[i].deadLine.annes);
-        printf("\n");
-
+        do
+        {
+            printf("--------->entrer l'annes : ");
+            scanf("%d",&lesTaches[i].deadLine.annes);
+            printf("\n");
+        }
+        while(lesTaches[i].deadLine.annes<2023);
 
 
         printf("--------> BRAVO,Cette tache %d est ajoutee ;)\n",i+1);
         printf("\n");
         numTache ++;
+
     }
     printf("-->Appuyez sur n'importe quelle touche pour revenir au menu : ");
     scanf("%s",&reutour);
@@ -232,7 +238,6 @@ void affichageDesTaches()
                     {
                         if (strcmp(lesTaches[i].titre, lesTaches[j].titre) > 0)
                         {
-                            // Swap the tasks
                             Tache temp = lesTaches[i];
                             lesTaches[i] = lesTaches[j];
                             lesTaches[j] = temp;
@@ -380,12 +385,24 @@ void ModificationDesTaches()
 
         case 3 :
             printf("----> Entrer le nouveua deadLine de la tache. \n ");
-            printf("--------->entrer le jour : ");
-            scanf("%d",&lesTaches[lesModifs-1].deadLine.jour);
-            printf("--------->entrer le mois : ");
-            scanf("%d",&lesTaches[lesModifs-1].deadLine.mois);
-            printf("--------->entrer l'annes : ");
-            scanf("%d",&lesTaches[lesModifs-1].deadLine.annes);
+            do
+            {
+                printf("--------->entrer le jour : ");
+                scanf("%d",&lesTaches[lesModifs-1].deadLine.jour);
+            }
+            while(lesTaches[lesModifs-1].deadLine.jour<0 || lesTaches[lesModifs-1].deadLine.jour>31);
+            do
+            {
+                printf("--------->entrer le mois : ");
+                scanf("%d",&lesTaches[lesModifs-1].deadLine.mois);
+            }
+            while(lesTaches[lesModifs-1].deadLine.mois<0 || lesTaches[lesModifs-1].deadLine.mois>12);
+            do
+            {
+                printf("--------->entrer l'annes : ");
+                scanf("%d",&lesTaches[lesModifs-1].deadLine.annes);
+            }
+            while(lesTaches[lesModifs-1].deadLine.mois<0 || lesTaches[lesModifs-1].deadLine.mois>12);
             printf("\n");
             break;
         }
@@ -471,7 +488,7 @@ void rechercheDeslesTaches()
                     counteur++;
                 }
             }
-            if(counteur==0)
+            if(counteur!=0)
             {
                 printf("\tpas de tache avec ce nom .");
                 printf("\n\tAppuyez n'importe quelle touche pour revenir au menu : ");
@@ -499,7 +516,12 @@ void supprissionDeslesTaches()
             }
             numTache--;
         }
+
     }
+    printf("\n");
+    printf("--------> Dit au revoir a cette tache :^(\n");
+    printf("\tAppuyez n'importe quelle touche pour revenir au menu : ");
+    scanf("%s",&reutour);
 }
 //--------------------------------------------------------------------------------------------------functions responsable de statistiques---------------------------------------------------------------------------------------------------
 void statistiques()
