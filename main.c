@@ -1,187 +1,192 @@
-    #include<stdio.h>
-    #include<stdlib.h>
-    #include<time.h>
-    //#include <windows.h>
-    #include<string.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+//#include <windows.h>
+#include<string.h>
 
-    //--------------------------------------------------------------------------------------------declaration de functions------------------------------------------------------------------------------------------------
-    void afficherMenu();
-    void AfficherLesTaches();
-    void ajouterTache();
-    void ModifierUneTache();
-    void SupprimerUneTache();
-    void RechercherUneTache();
-    void Statistiques();
-    //--------------------------------------------------------------------------------------------declaration de structure-------------------------------------------------------------------------------------------------
-    typedef struct
+//--------------------------------------------------------------------------------------------declaration de functions------------------------------------------------------------------------------------------------
+void affichageDeMenu();
+void affichageDesTaches();
+void ajoutDeslesTaches();
+void ModificationDesTaches();
+void supprissionDeslesTaches();
+void rechercheDeslesTaches();
+void statistiques();
+//--------------------------------------------------------------------------------------------declaration de structure-------------------------------------------------------------------------------------------------
+typedef struct
+{
+    int annes;
+    int mois;
+    int jour;
+} temp;
+typedef struct
+{
+    int ID;
+    char titre[25];
+    //int deadLine;
+    temp deadLine ;
+    char statut[40];
+    char description[50];
+} Tache;
+Tache lesTaches[100];
+
+
+//--------------------------------------------------------------------------------------------------global variables---------------------------------------------------------------------------------------------------
+int numTache=0;
+char reutour;
+int lesModifs=0;
+int realiser,finalisee;
+
+//----------------------------------------------------------------------------------------------------current time--------------------------------------------------------------------------------------------------------
+
+
+
+int main()
+{
+    // declaration des locals variables.
+    char choix[25];
+
+    do
     {
-        int annes;
-        int mois;
-        int jour;
-    } temp;
-    typedef struct
+        system("cls");
+        affichageDeMenu();
+        printf("\t\t le Choix : ");
+m:
+        scanf(" %s", &choix[1]);
+
+        switch (choix[1])
+        {
+        case '1':
+            ajoutDeslesTaches();
+            break;
+        case '2':
+            affichageDesTaches();
+            break;
+        case '3':
+            ModificationDesTaches();
+            break;
+        case '4':
+            rechercheDeslesTaches();
+
+            break;
+        case '5':
+            supprissionDeslesTaches();
+            break;
+        case '6':
+            statistiques();
+            break;
+        case '0':
+            printf("\t\t Au revoir ;)\n");
+            exit(0);
+            break;
+        default:
+            printf("Choix invalide. Veuillez ressayer :");
+            goto m;
+            break;
+        }
+    }
+    while (choix!=0);
+
+    return 0;
+}
+void affichageDeMenu()
+{
+    printf("             *************************************************************************************\n");
+    printf("             ************************************* ToDo list *************************************\n");
+    printf("             *************************************************************************************\n");
+    printf("             *                               [1] L'ajout des lesTaches.                          *\n");
+    printf("             *                                   [2] Afficher.                                   *\n");
+    printf("             *                            [3] Modifification d'une tache.                        *\n");
+    printf("             *                              [4] Recherche d'une tache.                           *\n");
+    printf("             *                             [5] supression d'une tache.                           *\n");
+    printf("             *                                 [6] statistiques                                  *\n");
+    printf("             **************************************[0] Exit.**************************************\n");
+}
+
+void ajoutDeslesTaches()
+{
+    int NombreDajout;
+    int status;
+    printf("====>Combien des taches voulez-vous entrer : ");
+    scanf("%d", &NombreDajout);
+    NombreDajout+=numTache;
+
+    for (int i = numTache; i<NombreDajout; i++)
     {
-        int identifiant;
-        char titre[25];
-        //int deadline;
-        temp deadline ;
-        char statut[40];
-        char description[50];
-    } Tache;
-    Tache taches[100];
+        printf("                 *****************************l'ajout de tache numero %d*******************************\n",i+1);
+        //printf("\tEntrer l'ID de la tache : ");
+        // scanf("%d",&lesTaches[i].ID);
+        lesTaches[i].ID=i+1;
 
+        printf("----> Entrer le titre de la tache %d : ",i+1);
+        getchar();
+        gets(lesTaches[i].titre);
+        printf("\n");
 
-    //--------------------------------------------------------------------------------------------------global variables---------------------------------------------------------------------------------------------------
-    int numTache=0;
-    char back;
-    int mod=0;
-    int realiser,finalisee;
-    int totalDays;
-    int counteurdays;
+        printf("----> Entrer la description de la tache %d: ",i+1);
+        gets(lesTaches[i].description);
+        printf("\n");
 
-    //----------------------------------------------------------------------------------------------------current time--------------------------------------------------------------------------------------------------------
-
-
-
-    int main()
-    {
-        // declaration des locals variables.
-        char choix;
 
         do
         {
-            system("cls");
-            afficherMenu();
-            printf("\t\t le Choix : ");
-    m:
-            scanf(" %c", &choix);
-
-            switch (choix)
+            printf("----> Entrer le nombre de statut de la tache %d: \n",i+1);
+            printf("---------> [1] realiser                 \n");
+            printf("---------> [2] en cours de realisation  \n");
+            printf("---------> [3] finalisee                \n");
+            printf("---------> ");
+            scanf("%d",&status);
+            switch(status)
             {
-            case '1':
-                ajouterTache();
+            case 1 :
+                strcpy(lesTaches[i].statut,"realiser");
+                realiser++;
                 break;
-            case '2':
-                AfficherLesTaches();
+            case 2 :
+                strcpy(lesTaches[i].statut,"en cours de realisation");
                 break;
-            case '3':
-                ModifierUneTache();
-                break;
-            case '4':
-                RechercherUneTache();
-
-                break;
-            case '5':
-                SupprimerUneTache();
-                break;
-            case '6':
-                Statistiques();
-                break;
-            case '0':
-                printf("\t\t Au revoir ;)\n");
-                break;
-            default:
-                printf("Choix invalide. Veuillez ressayer :");
-                goto m;
+            case 3 :
+                strcpy(lesTaches[i].statut,"finalisee");
+                finalisee++;
                 break;
             }
         }
-        while (choix!=0);
+        while(status !=1 && status != 2 && status !=3);
 
-        return 0;
-    }
-    void afficherMenu()
-    {
-        printf("             *************************************************************************************\n");
-        printf("             ************************************* ToDo list *************************************\n");
-        printf("             *************************************************************************************\n");
-        printf("             *                                [1] L'ajout des taches.                            *\n");
-        printf("             *                                   [2] Afficher.                                   *\n");
-        printf("             *                            [3] Modification d'une tache.                          *\n");
-        printf("             *                              [4] Recherche d'une tache.                           *\n");
-        printf("             *                             [5] supression d'une tache.                           *\n");
-        printf("             *                                 [6] Statistiques                                  *\n");
-        printf("             **************************************[0] Exit.**************************************\n");
-    }
-
-    void ajouterTache()
-    {
-        int NombreDajout;
-        int status;
-        printf("====>Combien de taches voulez-vous entrer : ");
-        scanf("%d", &NombreDajout);
-        NombreDajout+=numTache;
-
-        for (int i = numTache; i<NombreDajout; i++)
+        printf("---->le deadLine de la tache %d.\n",i+1);
+        do
         {
-            printf("                 *****************************l'ajout de tache numero %d*******************************\n",i+1);
-            //printf("\tEntrer l'identifiant de la tache : ");
-            // scanf("%d",&taches[i].identifiant);
-            taches[i].identifiant=i+1;
-
-            printf("----> Entrer le titre de la tache : ");
-            getchar();
-            gets(taches[i].titre);
-            printf("\n");
-
-            printf("----> Entrer la description de la tache : ");
-            gets(taches[i].description);
-            printf("\n");
-
-
-            do
-            {
-                printf("----> Entrer le nombre de statut de la tache : \n");
-                printf("---------> [1] realiser                 \n");
-                printf("---------> [2] en cours de realisation  \n");
-                printf("---------> [3] finalisee                \n");
-                printf("---------> ");
-                scanf("%d",&status);
-                switch(status)
-                {
-                case 1 :
-                    strcpy(taches[i].statut,"realiser");
-                    realiser++;
-                    break;
-                case 2 :
-                    strcpy(taches[i].statut,"en cours de realisation");
-                    break;
-                case 3 :
-                    strcpy(taches[i].statut,"finalisee");
-                    finalisee++;
-                    break;
-                }
-            }
-            while(status !=1 && status != 2 && status !=3);
-
-            printf("---->le deadline de la tache.\n");
-
             printf("--------->entrer le jour : ");
-            scanf("%d",&taches[i].deadline.jour);
-
-            printf("--------->entrer le mois : ");
-            scanf("%d",&taches[i].deadline.mois);
-
-            printf("--------->entrer l'annes : ");
-            scanf("%d",&taches[i].deadline.annes);
-            printf("\n");
-
-
-
-            printf("--------> BRAVO,Cette tache est ajoutee ;)\n");
-            printf("\n");
-            numTache ++;
+            scanf("%d",&lesTaches[i].deadLine.jour);
         }
-        printf("-->Appuyez sur n'importe quelle touche pour revenir au menu : ");
-        scanf("%s",&back);
+        while(lesTaches[i].deadLine.jour<=0 || lesTaches[i].deadLine.jour>31);
+        do
+        {
+            printf("--------->entrer le mois : ");
+            scanf("%d",&lesTaches[i].deadLine.mois);
+        }
+        while(lesTaches[i].deadLine.mois<=0 || lesTaches[i].deadLine.mois>12);
+
+        printf("--------->entrer l'annes : ");
+        scanf("%d",&lesTaches[i].deadLine.annes);
+        printf("\n");
+
+
+
+        printf("--------> BRAVO,Cette tache %d est ajoutee ;)\n",i+1);
+        printf("\n");
+        numTache ++;
+    }
+    printf("-->Appuyez sur n'importe quelle touche pour revenir au menu : ");
+    scanf("%s",&reutour);
 }
-void AfficherLesTaches()
+void affichageDesTaches()
 {
     //----------------
     time_t date=time(NULL);
 
 
-    struct tm tm=*localtime(&date);
+    struct tm temp=*localtime(&date);
 
     //------------
     int i,j;
@@ -191,7 +196,7 @@ void AfficherLesTaches()
         printf("\n\t\tajouter une tache avant d'afficher :'(\n");
         printf("\n");
         printf("\tAppuyez n'importe quelle touche pour revenir au menu : ");
-        scanf("%s",&back);
+        scanf("%s",&reutour);
     }
     else
     {
@@ -199,8 +204,8 @@ void AfficherLesTaches()
         {
             printf("\t[1] affichage normale .\n");
             printf("\t[2] affichage par tri alphabetique .\n");
-            printf("\t[3] affichage par tri de deadline .\n");
-            printf("\t[4] Afficher les tâches dont le deadline est dans 3 jours ou moins. \n");
+            printf("\t[3] affichage par tri de deadLine .\n");
+            printf("\t[4] Afficher les tâches dont le deadLine est dans 3 jours ou moins. \n");
             printf("\t\t le choix : ");
             scanf("%d",&TypeAffichage);
             switch(TypeAffichage)
@@ -210,90 +215,91 @@ void AfficherLesTaches()
                 for(i=0; i<numTache; i++)
                 {
                     printf("                 ===================================tache numero %d=====================================\n",i+1);
-                    printf("\tl'dentifiant est : %d\n",taches[i].identifiant);
-                    printf("\tle titre est : %s\n",taches[i].titre);
-                    printf("\tla status est : %s\n",taches[i].statut);
-                    printf("\tle description est : %s\n",taches[i].description);
-                    printf("\tle deadline est : %d/%d/%d\n",taches[i].deadline.annes,taches[i].deadline.mois,taches[i].deadline.jour);
+                    printf("\tl'dentifiant est : %d\n",lesTaches[i].ID);
+                    printf("\tle titre est : %s\n",lesTaches[i].titre);
+                    printf("\tla status est : %s\n",lesTaches[i].statut);
+                    printf("\tle description est : %s\n",lesTaches[i].description);
+                    printf("\tle deadLine est : %d/%d/%d\n",lesTaches[i].deadLine.annes,lesTaches[i].deadLine.mois,lesTaches[i].deadLine.jour);
                     printf("                 --------------------------------------------------------------------------------------\n");
                 }
                 printf("Appuyez n'importe quelle touche pour revenir au menu : ");
-                scanf("%s",&back);
-                break;
-            case 3:
-                for (i = 0; i < numTache - 1; i++)
-                {
-                    for (j = i + 1; j < numTache; j++)
-                    {
-                        if (taches[i].deadline.mois*30+taches[i].deadline.jour+taches[i].deadline.annes*365<taches[j].deadline.mois*30+taches[j].deadline.jour+taches[j].deadline.annes*365)
-                        {
-                            // Swap the tasks
-                            Tache temp = taches[i];
-                            taches[i] = taches[j];
-                            taches[j] = temp;
-                        }
-                    }
-                }
-                for (i = 0; i < numTache; i++)
-                {
-                    printf("=================================== Tache numero %d =====================================\n", i + 1);
-                    printf("L'identifiant est : %d\n", taches[i].identifiant);
-                    printf("Le titre est : %s\n", taches[i].titre);
-                    printf("Le statut est : %s\n", taches[i].statut);
-                    printf("La description est : %s\n", taches[i].description);
-                    printf("\tle deadline est : %d/%d/%d\n",taches[i].deadline.annes,taches[i].deadline.mois,taches[i].deadline.jour);
-                    printf("-----------------------------------------------------------------------------------------\n");
-                }
-                printf("Appuyez n'importe quelle touche pour revenir au menu : ");
-                scanf("%s",&back);
+                scanf("%s",&reutour);
                 break;
             case 2:
                 for (i = 0; i < numTache - 1; i++)
                 {
                     for (j = i + 1; j < numTache; j++)
                     {
-                        if (strcmp(taches[i].titre, taches[j].titre) > 0)
+                        if (strcmp(lesTaches[i].titre, lesTaches[j].titre) > 0)
                         {
                             // Swap the tasks
-                            Tache temp = taches[i];
-                            taches[i] = taches[j];
-                            taches[j] = temp;
+                            Tache temp = lesTaches[i];
+                            lesTaches[i] = lesTaches[j];
+                            lesTaches[j] = temp;
                         }
                     }
                 }
                 for (i = 0; i < numTache; i++)
                 {
                     printf("=================================== Tache numero %d =====================================\n", i + 1);
-                    printf("L'identifiant est : %d\n", taches[i].identifiant);
-                    printf("Le titre est : %s\n", taches[i].titre);
-                    printf("Le statut est : %s\n", taches[i].statut);
-                    printf("La description est : %s\n", taches[i].description);
-                    printf("\tle deadline est : %d/%d/%d\n",taches[i].deadline.annes,taches[i].deadline.mois,taches[i].deadline.jour);
+                    printf("L'Identifiant est : %d\n", lesTaches[i].ID);
+                    printf("Le titre est : %s\n", lesTaches[i].titre);
+                    printf("La statut est : %s\n", lesTaches[i].statut);
+                    printf("La description est : %s\n", lesTaches[i].description);
+                    printf("\tle deadLine est : %d/%d/%d\n",lesTaches[i].deadLine.annes,lesTaches[i].deadLine.mois,lesTaches[i].deadLine.jour);
                     printf("-----------------------------------------------------------------------------------------\n");
                 }
                 printf("Appuyez n'importe quelle touche pour revenir au menu : ");
-                scanf("%s",&back);
+                scanf("%s",&reutour);
                 break;
+            case 3:
+                for (i = 0; i < numTache - 1; i++)
+                {
+                    for (j = i + 1; j < numTache; j++)
+                    {
+                        if (lesTaches[i].deadLine.mois*30+lesTaches[i].deadLine.jour+lesTaches[i].deadLine.annes*365>lesTaches[j].deadLine.mois*30+lesTaches[j].deadLine.jour+lesTaches[j].deadLine.annes*365)
+                        {
+                            // Swap the tasks
+                            Tache temp = lesTaches[i];
+                            lesTaches[i] = lesTaches[j];
+                            lesTaches[j] = temp;
+                        }
+                    }
+                }
+                for (i = 0; i < numTache; i++)
+                {
+                    printf("=================================== Tache numero %d =====================================\n", i + 1);
+                    printf("L'Identifiant est : %d\n", lesTaches[i].ID);
+                    printf("Le titre est : %s\n", lesTaches[i].titre);
+                    printf("Le statut est : %s\n", lesTaches[i].statut);
+                    printf("La description est : %s\n", lesTaches[i].description);
+                    printf("\tle deadLine est : %d/%d/%d\n",lesTaches[i].deadLine.annes,lesTaches[i].deadLine.mois,lesTaches[i].deadLine.jour);
+                    printf("-----------------------------------------------------------------------------------------\n");
+                }
+                printf("Appuyez n'importe quelle touche pour revenir au menu : ");
+                scanf("%s",&reutour);
+                break;
+
             case 4:
                 for (int i = 0; i < numTache; i++)
                 {
-                    if ((taches[i].deadline.mois - (tm.tm_mon+1)) * 30 + (taches[i].deadline.jour - tm.tm_mday )+ (taches[i].deadline.annes -1900 - tm.tm_year) * 365 <= 3)
+                    if ((lesTaches[i].deadLine.mois - (temp.tm_mon+1)) * 30 + (lesTaches[i].deadLine.jour - temp.tm_mday )+ (lesTaches[i].deadLine.annes -1900 - temp.tm_year) * 365 <= 3)
                     {
                         printf("=================================== Tache numero %d =====================================\n", i + 1);
-                        printf("L'identifiant est : %d\n", taches[i].identifiant);
-                        printf("Le titre est : %s\n", taches[i].titre);
-                        printf("\tle deadline est : %d/%d/%d\n", taches[i].deadline.annes, taches[i].deadline.mois, taches[i].deadline.jour);
+                        printf("L'Identifiant est : %d\n", lesTaches[i].ID);
+                        printf("Le titre est : %s\n", lesTaches[i].titre);
+                        printf("\tle deadLine est : %d/%d/%d\n", lesTaches[i].deadLine.annes, lesTaches[i].deadLine.mois, lesTaches[i].deadLine.jour);
                         printf("-----------------------------------------------------------------------------------------\n");
                     }
-                    else if((taches[i].deadline.mois - (tm.tm_mon+1)) + (taches[i].deadline.jour - tm.tm_mday )+ (taches[i].deadline.annes -1900 - tm.tm_year) > 3)
+                    if((lesTaches[i].deadLine.mois - (temp.tm_mon+1)) * 30 + (lesTaches[i].deadLine.jour - temp.tm_mday )+ (lesTaches[i].deadLine.annes -1900 - temp.tm_year) > 3)
                     {
-                        printf("\t\t !!! Il n\'y a pas de taches moins de 3 jours :( \n\n");
+                        printf("\t\t !!! Il n'y a pas des Taches moins de 3 jours :( \n\n");
                     }
 
                 }
 
                 printf("\tAppuyez n'importe quelle touche pour revenir au menu : ");
-                scanf("%s",&back);
+                scanf("%s",&reutour);
                 break;
 
 
@@ -303,78 +309,92 @@ void AfficherLesTaches()
         while(TypeAffichage<0&&TypeAffichage>3);
     }
 }
-void ModifierUneTache()
+void ModificationDesTaches()
 {
+    int typeDeModifs;
     int status;
     if (numTache<=0)
     {
-        printf("\n\t\tajouter une tache avant de modifier :'(\n");
+        printf("\n\t\tajouter une tache avant de Modifier :'(\n");
         printf("\n");
         printf("\tAppuyez n'importe quelle touche pour revenir au menu : ");
-        scanf("%s",&back);
+        scanf("%s",&reutour);
     }
     else
     {
         for (int i = 0; i < numTache; i++)
         {
             printf("=================================== Tache numero %d =====================================\n", i + 1);
-            printf("L'identifiant est : %d\n", taches[i].identifiant);
-            printf("Le titre est : %s\n", taches[i].titre);
+            printf("L'Identifiant est : %d\n", lesTaches[i].ID);
+            printf("Le titre est : %s\n", lesTaches[i].titre);
             printf("-----------------------------------------------------------------------------------------\n");
 
         }
-        printf("entrer le numero de la tache qui vous vouler modifier : ");
-        scanf("%d",&mod);
-
-        printf("----> Entrer le nouveau titre de la tache : ");
-        getchar();
-        gets(taches[mod-1].titre);
-        printf("\n");
-
-        do
+        printf("entrer le numero de la tache qui vous vouler Modifier : ");
+        scanf("%d",&lesModifs);
+        system("cls");
+        affichageDeMenu();
+        printf("----> quelle partie vous voullez modifier : \n");
+        printf("------------------> [1] la description               \n");
+        printf("------------------> [2] la status \n");
+        printf("------------------> [3] le deadline       \n");
+        printf("\t\t le choix : ");
+        scanf("%d",&typeDeModifs);
+        switch(typeDeModifs)
         {
-            printf("----> Entrer le nombre de la nouvelle statut de votre tache : \n");
-            printf("---------> [1] realiser                 \n");
-            printf("---------> [2] en cours de realisation  \n");
-            printf("---------> [3] finalisee                \n");
-            printf("---------> ");
-            scanf("%d",&status);
-            switch(status)
+        case 1:
+
+            printf("----> Entrer la nouvelle description de la tache : ");
+            getchar();
+            gets(lesTaches[lesModifs-1].description);
+            printf("\n");
+            break;
+
+        case 2:
+
+            do
             {
-            case 1 :
-                strcpy(taches[mod-1].statut,"realiser");
-                break;
-            case 2 :
-                strcpy(taches[mod-1].statut,"en cours de realisation");
-                break;
-            case 3 :
-                strcpy(taches[mod-1].statut,"finalisee");
-                break;
+                printf("----> Entrer le nombre de la nouvelle statut de votre tache : \n");
+                printf("---------> [1] realiser                 \n");
+                printf("---------> [2] en cours de realisation  \n");
+                printf("---------> [3] finalisee                \n");
+                printf("---------> ");
+                scanf("%d",&status);
+                switch(status)
+                {
+                case 1 :
+                    strcpy(lesTaches[lesModifs-1].statut,"realiser");
+                    break;
+                case 2 :
+                    strcpy(lesTaches[lesModifs-1].statut,"en cours de realisation");
+                    break;
+                case 3 :
+                    strcpy(lesTaches[lesModifs-1].statut,"finalisee");
+                    break;
+                }
             }
+            while(status !=1 && status != 2 && status !=3);
+
+            break;
+
+        case 3 :
+            printf("----> Entrer le nouveua deadLine de la tache. \n ");
+            printf("--------->entrer le jour : ");
+            scanf("%d",&lesTaches[lesModifs-1].deadLine.jour);
+            printf("--------->entrer le mois : ");
+            scanf("%d",&lesTaches[lesModifs-1].deadLine.mois);
+            printf("--------->entrer l'annes : ");
+            scanf("%d",&lesTaches[lesModifs-1].deadLine.annes);
+            printf("\n");
+            break;
         }
-        while(status !=1 && status != 2 && status !=3);
-
-
-        printf("----> Entrer la nouvelle description de la tache : ");
-        gets(taches[mod-1].description);
-        printf("\n");
-
-
-        printf("----> Entrer le nouveua deadline de la tache. \n ");
-        printf("--------->entrer le jour : ");
-        scanf("%d",&taches[mod-1].deadline.jour);
-        printf("--------->entrer le mois : ");
-        scanf("%d",&taches[mod-1].deadline.mois);
-        printf("--------->entrer l'annes : ");
-        scanf("%d",&taches[mod-1].deadline.annes);
-        printf("\n");
-
-
         printf("--------> BRAVO,Cette tache est modifier ;)\n");
         printf("\n");
+        printf("\tAppuyez n'importe quelle touche pour revenir au menu : ");
+        scanf("%s",&reutour);
     }
 }
-void RechercherUneTache()
+void rechercheDeslesTaches()
 {
     int recherche=0;
     int Typerecherche=1;
@@ -386,7 +406,7 @@ void RechercherUneTache()
         printf("\n\t\tajouter une tache avant de rechercher :'(\n");
         printf("\n");
         printf("\tAppuyez n'importe quelle touche pour revenir au menu : ");
-        scanf("%s",&back);
+        scanf("%s",&reutour);
     }
     else
     {
@@ -400,32 +420,32 @@ void RechercherUneTache()
             for (int i = 0; i < numTache; i++)
             {
                 printf("=================================== Tache numero %d =====================================\n", i + 1);
-                printf("L'identifiant est : %d\n", taches[i].identifiant);
-                printf("Le titre est : %s\n", taches[i].titre);
+                printf("L'ID est : %d\n", lesTaches[i].ID);
+                printf("Le titre est : %s\n", lesTaches[i].titre);
                 printf("-----------------------------------------------------------------------------------------\n");
 
             }
             printf("entrer l'identicateur de la tache qui vous vouler rechercher: ");
             scanf("%d",&recherche);
             system("cls");
-            afficherMenu();
+            affichageDeMenu();
             printf("\n");
             printf("=================================== Tache numero %d =====================================\n", recherche);
-            printf("L'identifiant est : %d\n", taches[recherche-1].identifiant);
-            printf("Le titre est : %s\n", taches[recherche-1].titre);
-            printf("Le statut est : %s\n", taches[recherche-1].statut);
-            printf("La description est : %s\n", taches[recherche-1].description);
-            printf("\tle deadline est : %d/%d/%d\n",taches[recherche-1].deadline.annes,taches[recherche-1].deadline.mois,taches[recherche-1].deadline.jour);
+            printf("L'ID est : %d\n", lesTaches[recherche-1].ID);
+            printf("Le titre est : %s\n", lesTaches[recherche-1].titre);
+            printf("Le statut est : %s\n", lesTaches[recherche-1].statut);
+            printf("La description est : %s\n", lesTaches[recherche-1].description);
+            printf("\tle deadLine est : %d/%d/%d\n",lesTaches[recherche-1].deadLine.annes,lesTaches[recherche-1].deadLine.mois,lesTaches[recherche-1].deadLine.jour);
             printf("-----------------------------------------------------------------------------------------\n");
             printf("\tAppuyez n'importe quelle touche pour revenir au menu : ");
-            scanf("%s",&back);
+            scanf("%s",&reutour);
             break;
         case 2 :
             for (int i = 0; i < numTache; i++)
             {
                 printf("=================================== Tache numero %d =====================================\n", i + 1);
-                printf("L'identifiant est : %d\n", taches[i].identifiant);
-                printf("Le titre est : %s\n", taches[i].titre);
+                printf("L'ID est : %d\n", lesTaches[i].ID);
+                printf("Le titre est : %s\n", lesTaches[i].titre);
                 printf("-----------------------------------------------------------------------------------------\n");
 
             }
@@ -434,18 +454,18 @@ void RechercherUneTache()
             printf("\n");
             for (int i=0; i<numTache; i++)
             {
-                RechercheResultat=strcmp(taches[i].titre,titre);
+                RechercheResultat=strcmp(lesTaches[i].titre,titre);
                 if(RechercheResultat==0)
                 {
                     printf("=================================== Tache numero %d =====================================\n",i+1);
-                    printf("L'identifiant est : %d\n", taches[i].identifiant);
-                    printf("Le titre est : %s\n", taches[i].titre);
-                    printf("Le statut est : %s\n", taches[i].statut);
-                    printf("La description est : %s\n", taches[i].description);
-                    printf("\tle deadline est : %d/%d/%d\n",taches[i].deadline.annes,taches[i].deadline.mois,taches[i].deadline.jour);
+                    printf("L'ID est : %d\n", lesTaches[i].ID);
+                    printf("Le titre est : %s\n", lesTaches[i].titre);
+                    printf("Le statut est : %s\n", lesTaches[i].statut);
+                    printf("La description est : %s\n", lesTaches[i].description);
+                    printf("\tle deadLine est : %d/%d/%d\n",lesTaches[i].deadLine.annes,lesTaches[i].deadLine.mois,lesTaches[i].deadLine.jour);
                     printf("-----------------------------------------------------------------------------------------\n");
                     printf("\tAppuyez n'importe quelle touche pour revenir au menu : ");
-                    scanf("%s",&back);
+                    scanf("%s",&reutour);
                     counteur++;
                 }
             }
@@ -453,14 +473,14 @@ void RechercherUneTache()
             {
                 printf("\tpas de tache avec ce nom .");
                 printf("\n\tAppuyez n'importe quelle touche pour revenir au menu : ");
-                scanf("%s",&back);
+                scanf("%s",&reutour);
             }
             break;
         }
     }
 
 }
-void SupprimerUneTache()
+void supprissionDeslesTaches()
 {
     int sup;
     int i,j;
@@ -468,23 +488,23 @@ void SupprimerUneTache()
     scanf("%d",&sup);
     for (i=0; i<numTache; i++)
     {
-        if(sup==taches[i].identifiant)
+        if(sup==lesTaches[i].ID)
         {
             for(j=i+1; j<numTache; j++)
             {
-                taches[i]=taches[j];
+                lesTaches[i]=lesTaches[j];
             }
             numTache--;
         }
     }
 }
-void Statistiques()
+void statistiques()
 {
     //--------------------
     time_t date=time(NULL);
 
 
-    struct tm tm=*localtime(&date);
+    struct tm temp=*localtime(&date);
     //------------------------------------------
     int TypeStat;
     if (numTache<=0)
@@ -492,12 +512,12 @@ void Statistiques()
         printf("\n\t\tajouter une tache avant de voir les statistiques :'(\n");
         printf("\n");
         printf("\tAppuyez n'importe quelle touche pour revenir au menu : ");
-        scanf("%s",&back);
+        scanf("%s",&reutour);
     }
     else
     {
-        printf("\t[1] afficher le nombre total des taches .\n");
-        printf("\t[2] afficher le nombre de taches complete et incomplete .\n");
+        printf("\t[1] afficher le nombre total des lesTaches .\n");
+        printf("\t[2] afficher le nombre de lesTaches complete et incomplete .\n");
         printf("\t[3] afficher le nombre de jours restants jusqu'au delai de chaque tache .\n");
         printf("\t\t le choix : ");
         scanf("%d",&TypeStat);
@@ -505,27 +525,30 @@ void Statistiques()
     switch(TypeStat)
     {
     case 1 :
-        printf("\t---->le nombre total des taches est : %d\n\n",numTache);
+        printf("\t---->le nombre total des lesTaches est : %d\n\n",numTache);
         printf("\tAppuyez n'importe quelle touche pour revenir au menu : ");
-        scanf("%s",&back);
+        scanf("%s",&reutour);
         break;
     case 2 :
-        printf("\t---->le nombre total des taches realiser est : %d\n\n",realiser);
-        printf("\t---->le nombre total des taches finalisee est : %d\n\n",finalisee);
+        printf("\t---->le nombre total des lesTaches realiser est : %d\n\n",realiser);
+        printf("\t---->le nombre total des lesTaches finalisee est : %d\n\n",finalisee);
         printf("\tAppuyez n'importe quelle touche pour revenir au menu : ");
-        scanf("%s",&back);
+        scanf("%s",&reutour);
         break;
     case 3 :
         for (int i = 0; i < numTache; i++)
         {
-            printf("=================================== Tache numero %d =====================================\n", i + 1);
-            printf("L'identifiant est : %d\n", taches[i].identifiant);
-            printf("Le titre est : %s\n", taches[i].titre);
-            printf("les jours restees sont : %d\n", (taches[i].deadline.mois - (tm.tm_mon+1)) * 30 + (taches[i].deadline.jour - tm.tm_mday )+ (taches[i].deadline.annes -1900 - tm.tm_year) * 365 );
-            printf("-----------------------------------------------------------------------------------------\n");
+            if( ((lesTaches[i].deadLine.mois - (temp.tm_mon+1)) * 30 + (lesTaches[i].deadLine.jour - temp.tm_mday )+ (lesTaches[i].deadLine.annes -1900 - temp.tm_year) * 365)>=0)
+            {
+                printf("=================================== Tache numero %d =====================================\n", i + 1);
+                printf("L'ID est : %d\n", lesTaches[i].ID);
+                printf("Le titre est : %s\n", lesTaches[i].titre);
+                printf("les jours restees sont : %d\n", (lesTaches[i].deadLine.mois - (temp.tm_mon+1)) * 30 + (lesTaches[i].deadLine.jour - temp.tm_mday )+ (lesTaches[i].deadLine.annes -1900 - temp.tm_year) * 365 );
+                printf("-----------------------------------------------------------------------------------------\n");
+            }
         }
         printf("\tAppuyez n'importe quelle touche pour revenir au menu : ");
-        scanf("%s",&back);
+        scanf("%s",&reutour);
         break;
     }
 
