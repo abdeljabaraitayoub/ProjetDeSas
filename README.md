@@ -1,4 +1,4 @@
-```markdown
+
 # Application de Liste de Tâches en C 📋
 
 Cette application en C vous permet de gérer une liste de tâches. Vous pouvez ajouter, afficher, modifier, rechercher et supprimer des tâches de manière efficace.
@@ -54,7 +54,7 @@ La date limite est : 2023/09/25
 
 ## Auteur 📝
 
-Ce code a été écrit par Abdeljabar AITYOUB et est mis à disposition sous la licence MIT.
+Ce code a été écrit par Abdeljabar AITYOUB.
 
 ## Améliorations Futures ✨
 
@@ -64,4 +64,3 @@ Voici quelques idées pour les améliorations futures de cette application :
 - Prise en charge de plusieurs utilisateurs avec des listes de tâches distinctes.
 
 N'hésitez pas à contribuer ou à signaler des problèmes. Bonne gestion de vos tâches ! 👏
-```
